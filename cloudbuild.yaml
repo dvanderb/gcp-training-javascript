@@ -35,6 +35,13 @@ steps:
     id: 'Push Image'
     waitFor: ['Build Image']
 
+  # Step 6: Deploy via cloud run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args: ['run', 'deploy', 'cdks2', '--image', 'us-east4-docker.pkg.dev/$PROJECT_ID/cdks2/cdks2:${SHORT_SHA}', '--region', 'us-east4']
+    id: 'Run Image'
+    waitFor: ['Push Image']
+
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
 
