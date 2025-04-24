@@ -15,5 +15,8 @@ steps:
     id: 'Run Linter'
     waitFor: ['Install Dependencies'] # Ensure dependencies are installed before running lint
 
+options:
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+
 # Optional: Specify timeout for the build
 timeout: 1200s # 20 minutes
