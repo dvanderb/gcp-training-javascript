@@ -25,13 +25,13 @@ steps:
 
   # Step 4: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'us-east4-docker.pkg.dev/$PROJECT_ID/my-repo/my-image:${SHORT_SHA}', '.']
+    args: ['build', '-t', 'us-east4-docker.pkg.dev/$PROJECT_ID/cdks2/cdks2:${SHORT_SHA}', '.']
     id: 'Build Image'
     waitFor: ['Run Tests']
 
   # Step 5: Push the Docker image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-east4-docker.pkg.dev/$PROJECT_ID/my-repo/my-image:${SHORT_SHA}']
+    args: ['push', 'us-east4-docker.pkg.dev/$PROJECT_ID/cdks2/cdks2:${SHORT_SHA}']
     id: 'Push Image'
     waitFor: ['Build Image']
 
