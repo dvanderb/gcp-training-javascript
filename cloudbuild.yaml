@@ -1,0 +1,25 @@
+# cloudbuild.yaml
+
+steps:
+  # Step 1: Install project dependencies, including the linter (e.g., eslint)
+  # This step uses the official npm cloud builder image.
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['install']
+    id: 'Install Dependencies'
+    # Optional: Add timing information
+    timing:
+      startTime: '$BUILD_START_TIME'
+
+  # Step 2: Run the linter command
+  # This assumes you have a script named 'lint' in your package.json's "scripts" section.
+  # Example package.json script: "lint": "eslint '**/*.{js,ts}'"
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['run', 'lint']
+    id: 'Run Linter'
+    waitFor: ['Install Dependencies'] # Ensure dependencies are installed before running lint
+    # Optional: Add timing information
+    timing:
+      endTime: '$BUILD_END_TIME'
+
+# Optional: Specify timeout for the build
+timeout: 1200s # 20 minutes
