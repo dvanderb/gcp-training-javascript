@@ -1,6 +1,6 @@
 # Use an official Node.js runtime as a parent image
 # Choose a specific LTS version (e.g., 20) and a slim variant for smaller size
-FROM node:20-slim
+FROM node:20-slim as base
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
@@ -21,6 +21,11 @@ COPY . .
 # Cloud Run uses the PORT environment variable, but EXPOSE is good practice.
 EXPOSE 8080
 
+FROM base AS dev
+ENV DEV=true
+CMD [ "node", "server.js" ]
+
+FROM base AS prod
 # Define the command to run your app using CMD which defines your runtime
 # This will run "node server.js"
 CMD [ "node", "server.js" ]

@@ -3,9 +3,14 @@ const express = require('express');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
+const DEV = process.env.DEV || false;
 
 app.get('/', (req, res) => {
   console.log('Request for /');
+  if (DEV) {
+    res.status(200).json({ message: 'Hello from DEV World!' });
+    return;
+  }
   res.status(200).json({ message: 'Hello World!' });
 });
 

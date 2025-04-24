@@ -25,7 +25,7 @@ steps:
 
   # Step 4: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'us-east4-docker.pkg.dev/$PROJECT_ID/cdks2/cdks2:${SHORT_SHA}', '--target', 'prod', '.']
+    args: ['build', '-t', 'us-east4-docker.pkg.dev/$PROJECT_ID/cdks2/cdks2:${SHORT_SHA}', '--target', 'dev', '.']
     id: 'Build Image'
     waitFor: ['Run Tests']
 
@@ -38,7 +38,7 @@ steps:
   # Step 6: Deploy via cloud run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
-    args: ['run', 'deploy', 'cdks2', '--image', 'us-east4-docker.pkg.dev/$PROJECT_ID/cdks2/cdks2:${SHORT_SHA}', '--region', 'us-east4', '--allow-unauthenticated']
+    args: ['run', 'deploy', 'cdks2-dev', '--image', 'us-east4-docker.pkg.dev/$PROJECT_ID/cdks2/cdks2:${SHORT_SHA}', '--region', 'us-east4', '--allow-unauthenticated']
     id: 'Run Image'
     waitFor: ['Push Image']
 
