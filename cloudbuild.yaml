@@ -6,9 +6,6 @@ steps:
   - name: 'gcr.io/cloud-builders/npm'
     args: ['install']
     id: 'Install Dependencies'
-    # Optional: Add timing information
-    timing:
-      startTime: '$BUILD_START_TIME'
 
   # Step 2: Run the linter command
   # This assumes you have a script named 'lint' in your package.json's "scripts" section.
@@ -17,9 +14,6 @@ steps:
     args: ['run', 'lint']
     id: 'Run Linter'
     waitFor: ['Install Dependencies'] # Ensure dependencies are installed before running lint
-    # Optional: Add timing information
-    timing:
-      endTime: '$BUILD_END_TIME'
 
 # Optional: Specify timeout for the build
 timeout: 1200s # 20 minutes
