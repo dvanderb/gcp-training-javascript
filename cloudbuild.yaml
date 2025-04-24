@@ -15,6 +15,26 @@ steps:
     id: 'Run Linter'
     waitFor: ['Install Dependencies'] # Ensure dependencies are installed before running lint
 
+  # Step 3: Run the tests
+  # This assumes you have a script named 'test' in your package.json's "scripts" section.
+  # Example package.json script: "test": "jest"
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['run', 'test']
+    id: 'Run Tests'
+    waitFor: ['Install Dependencies'] # Ensure dependencies are installed before running tests
+
+  # Step 4: Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-east4-docker.pkg.dev/$PROJECT_ID/my-repo/my-image:${SHORT_SHA}', '.']
+    id: 'Build Image'
+    waitFor: ['Run Tests']
+
+  # Step 5: Push the Docker image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-east4-docker.pkg.dev/$PROJECT_ID/my-repo/my-image:${SHORT_SHA}']
+    id: 'Push Image'
+    waitFor: ['Build Image']
+
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
 
